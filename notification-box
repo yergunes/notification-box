@@ -1,0 +1,134 @@
+#!/bin/bash
+
+export BASE="/home/arch/Desktop/notification-box"
+source $BASE/config #Configuration
+source $HOME/.notification-box #General Application Settings
+[ -z $GTKDIALOG ] && GTKDIALOG=gtkdialog
+
+#GMAIL WINDOW
+export GMAIL_DIALOG='
+<window title="Gmail Notifications" resizable="no" width-request="300" height-request="260"> 
+  <vbox>
+    <text>
+      <label>Account informations</label>
+      <variable>GMAIL_DIALOG</variable>
+    </text>
+    <pixmap>
+        <input file>'$BASE/icons/gmail-notification-icon.png'</input>
+    </pixmap>
+    <hbox homogeneous="true">
+        <text>
+          <label>Username</label>
+        </text>
+        <entry is-focus="true">
+        <variable>gmail_username</variable>
+        </entry>
+    </hbox>
+    <hbox homogeneous="true">
+        <text>
+          <label>Password</label>
+        </text>
+        <entry>
+        <variable>gmail_password</variable>
+        </entry>
+    </hbox>
+    <hbox>
+        <text>
+          <label>Refresh Time</label>
+        </text>
+        <spinbutton range-min="0" range-max="216000">
+            <default>60</default>
+            <variable>gmail_refresh_time</variable>
+        </spinbutton>
+    </hbox>
+    <hbox>
+        <button>
+            <label>Cancel</label>
+            <action function="closewindow">GMAIL_DIALOG</action>
+        </button>
+        <button>
+            <label>Save</label> 
+            <action>echo gmail_username="\"$gmail_username\"" gmail_password="\"$gmail_password\"" gmail_refresh_time="\"$gmail_refresh_time\"" > $BASE/moduls/.gmail-config</action>
+            <action function="closewindow">GMAIL_DIALOG</action>
+        </button>
+    </hbox>
+  </vbox>
+</window>
+'
+
+#MAIN WINDOW
+export MAIN_DIALOG='
+<window title="Notification Box v0.03" icon-name="gtk-about" resizable="no" width-request="350" height-request="400"> 
+ <vbox>
+
+  <frame Notifications>
+    <hbox>
+        <text>
+          <label>Select for activate</label>
+        </text>
+    </hbox>
+    <hbox homogeneous="true" spacing="100">
+        <checkbox>
+          <label>Gmail</label>
+          <default>'$CHECKBOX_GMAIL'</default>
+          <variable>CHECKBOX_GMAIL</variable>
+        </checkbox>
+        <button>
+            <width>50</width>
+            <label>Configure</label>
+            <action type="launch">GMAIL_DIALOG</action>
+        </button>
+    </hbox>
+  </frame>
+
+  <frame System Settings>
+    <checkbox>
+        <label>Run at startup</label>
+        <default>'$CHECKBOX_STARTUP'</default> 
+        <variable>CHECKBOX_STARTUP</variable>
+    </checkbox>
+    <checkbox>
+        <label>Open gui on start</label>
+        <default>'$CHECKBOX_OPENGUI'</default>
+        <variable>CHECKBOX_OPENGUI</variable>
+    </checkbox>
+    <checkbox>
+        <label>Check for updates</label>
+        <default>'$CHECKBOX_UPDATE'</default>
+        <variable>CHECKBOX_UPDATE</variable>
+    </checkbox>
+  </frame>
+
+  <hbox>
+    <button>
+        <label>Cancel</label>
+        <input file stock="gtk-cancel"></input>
+        <action>EXIT:cancel</action>
+    </button>
+    <button>
+        <label>Apply</label>
+        <input file stock="gtk-apply"></input>
+        <action>EXIT:apply</action>
+    </button>
+  </hbox>
+
+ </vbox>
+</window>
+'
+output=$(gtkdialog --space-fill=true --program=MAIN_DIALOG -G ${1-+500+150});
+I=$IFS; IFS="" 
+for STATEMENTS in $output; do 
+   eval $STATEMENTS 
+done 
+IFS=$I 
+
+
+if [ "$EXIT" = "apply" ]; then
+    echo $output > $HOME/.notification-box #Save General Application Settings
+    source $BASE/functions #Functions
+fi
+
+
+
+
+   

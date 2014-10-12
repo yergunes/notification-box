@@ -1,0 +1,28 @@
+#!/bin/bash
+
+#Scripts and Functions
+    #ADD STARTUP FUNCTION
+    startup_file="$HOME/.config/autostart/notification-box.desktop";
+    if [ "$CHECKBOX_STARTUP" = "true" ]; then
+        echo "[Desktop Entry]
+                Version=0.03
+                Type=Application
+                Name=Notification Box
+                Comment=This is a awesome notification app
+                Icon=$BASE/icons/app-icon.png
+                Exec=notification-box
+                StartupNotify=false
+                Terminal=false
+                Categories=Utility;" > $startup_file;
+    else
+        if [[ -f $startup_file ]]; then
+            rm $startup_file
+        fi
+    fi
+
+    #GMAIL FUNCTION
+    if [ "$CHECKBOX_GMAIL" = "true" ]; then
+        $BASE/moduls/gmail.sh &
+    else
+        [ ! -z "$(pgrep gmail.sh)" ] && killall gmail.sh
+    fi

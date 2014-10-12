@@ -1,0 +1,9 @@
+#!/bin/bash
+
+#MOVE MAIN PROGRAM IN BIN FOLDER
+#[[ ! -f /bin/notification/box ]] && 
+sudo cp $BASE/notification-box /bin
+
+#EXPORT GENERAL APPLICATION SETTINGS
+[ ! -s $HOME/.notification-box  ] && echo -e -n 'CHECKBOX_GMAIL="false" CHECKBOX_OPENGUI="false" CHECKBOX_STARTUP="false" CHECKBOX_UPDATE="false"' > $HOME/.notification-box 
+
