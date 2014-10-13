@@ -1,7 +1,6 @@
 #!/bin/bash
 
 export BASE="/home/arch/Desktop/notification-box"
-source $BASE/config #Configuration
 source $HOME/.notification-box #General Application Settings
 
 

@@ -6,7 +6,7 @@ Features
 -----------------
 <ul>
 <li>Gmail Notifications (new mail)</li>
-<li>Wordpress Notifications (new comments and updates</li>
+<li>Wordpress Notifications (new comments and updates)</li>
 </ul>
 (Wordpress feature currently not work at all websites.)
 
