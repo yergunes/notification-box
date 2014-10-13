@@ -3,24 +3,32 @@
 export BASE="/home/arch/Desktop/notification-box"
 source $BASE/config #Configuration
 source $HOME/.notification-box #General Application Settings
-[ -z $GTKDIALOG ] && GTKDIALOG=gtkdialog
 
+
+informations=$(cat $BASE/moduls/.*config);
+I=$IFS; IFS="" 
+for STATEMENTS in $informations; do 
+   eval $STATEMENTS 
+done 
+IFS=$I
+
+
+[ -z $GTKDIALOG ] && GTKDIALOG=gtkdialog
 #GMAIL WINDOW
 export GMAIL_DIALOG='
 <window title="Gmail Notifications" resizable="no" width-request="300" height-request="260"> 
   <vbox>
-    <text>
-      <label>Account informations</label>
-      <variable>GMAIL_DIALOG</variable>
-    </text>
     <pixmap>
-        <input file>'$BASE/icons/gmail-notification-icon.png'</input>
+        <variable>GMAIL_DIALOG</variable>
+        <input file>'$BASE/icons/gmail-icon.png'</input>
     </pixmap>
+    <frame Account informations>
     <hbox homogeneous="true">
         <text>
           <label>Username</label>
         </text>
         <entry is-focus="true">
+        <default>'$gmail_username'</default>
         <variable>gmail_username</variable>
         </entry>
     </hbox>
@@ -29,6 +37,8 @@ export GMAIL_DIALOG='
           <label>Password</label>
         </text>
         <entry>
+        <default>'$gmail_password'</default>
+        <sensitive>password</sensitive>
         <variable>gmail_password</variable>
         </entry>
     </hbox>
@@ -37,10 +47,11 @@ export GMAIL_DIALOG='
           <label>Refresh Time</label>
         </text>
         <spinbutton range-min="0" range-max="216000">
-            <default>60</default>
+            <default>'$gmail_refresh_time'</default>
             <variable>gmail_refresh_time</variable>
         </spinbutton>
     </hbox>
+    </frame>
     <hbox>
         <button>
             <label>Cancel</label>
@@ -56,9 +67,88 @@ export GMAIL_DIALOG='
 </window>
 '
 
+export WORDPRESS_DIALOG='
+<window title="Wordpress Notifications" resizable="no" width-request="450" height-request="370"> 
+  <vbox>
+    <pixmap>
+        <variable>WORDPRESS_DIALOG</variable>
+        <input file>'$BASE/icons/wordpress-icon.png'</input>
+    </pixmap>
+    <frame Account informations>
+    <hbox homogeneous="true">
+        <text>
+          <label>Website Url</label>
+        </text>
+        <entry>
+        <default>'$wordpress_url'</default>
+        <variable>wordpress_url</variable>
+        </entry>
+    </hbox>
+    <hbox homogeneous="true">
+        <text>
+          <label>Username</label>
+        </text>
+        <entry is-focus="true">
+        <default>'$wordpress_username'</default>
+        <variable>wordpress_username</variable>
+        </entry>
+    </hbox>
+    <hbox homogeneous="true">
+        <text>
+          <label>Password</label>
+        </text>
+        <entry>
+        <sensitive>password</sensitive>
+        <default>'$wordpress_password'</default>
+        <variable>wordpress_password</variable>
+        </entry>
+    </hbox>
+    <hbox>
+        <text>
+          <label>Refresh Time</label>
+        </text>
+        <spinbutton range-min="0" range-max="216000">
+            <default>'$wordpress_refresh_time'</default>
+            <variable>wordpress_refresh_time</variable>
+        </spinbutton>
+    </hbox>
+    </frame>
+
+    <frame Notification Type>
+    <hbox homogeneous="true" spacing="100">
+        <checkbox>
+          <label>Updates</label>
+          <default>'$CHECKBOX_WORDPRESS_UPDATE'</default>
+          <variable>CHECKBOX_WORDPRESS_UPDATE</variable>
+        </checkbox>
+    </hbox>
+    <hbox homogeneous="true" spacing="100">
+        <checkbox>
+          <label>Comments</label>
+          <default>'$CHECKBOX_WORDPRESS_COMMENT'</default>
+          <variable>CHECKBOX_WORDPRESS_COMMENT</variable>
+        </checkbox>
+    </hbox>
+    </frame>
+
+    <hbox>
+        <button>
+            <label>Cancel</label>
+            <action function="closewindow">WORDPRESS_DIALOG</action>
+        </button>
+        <button>
+            <label>Save</label> 
+            <action>echo wordpress_url="\"$wordpress_url\"" wordpress_username="\"$wordpress_username\"" wordpress_password="\"$wordpress_password\"" wordpress_refresh_time="\"$wordpress_refresh_time\"" CHECKBOX_WORDPRESS_UPDATE="\"$CHECKBOX_WORDPRESS_UPDATE\"" CHECKBOX_WORDPRESS_COMMENT="\"$CHECKBOX_WORDPRESS_COMMENT\"" > $BASE/moduls/.wordpress-config</action>
+            <action function="closewindow">WORDPRESS_DIALOG</action>
+        </button>
+    </hbox>
+  </vbox>
+</window>
+'
+
 #MAIN WINDOW
 export MAIN_DIALOG='
-<window title="Notification Box v0.03" icon-name="gtk-about" resizable="no" width-request="350" height-request="400"> 
+<window title="Notification Box v0.05" icon-name="gtk-about" resizable="no" width-request="350" height-request="250"> 
  <vbox>
 
   <frame Notifications>
@@ -74,9 +164,19 @@ export MAIN_DIALOG='
           <variable>CHECKBOX_GMAIL</variable>
         </checkbox>
         <button>
-            <width>50</width>
             <label>Configure</label>
             <action type="launch">GMAIL_DIALOG</action>
+        </button>
+    </hbox>
+    <hbox homogeneous="true" spacing="100">
+        <checkbox>
+          <label>Wordpress</label>
+          <default>'$CHECKBOX_WORDPRESS'</default>
+          <variable>CHECKBOX_WORDPRESS</variable>
+        </checkbox>
+        <button>
+            <label>Configure</label>
+            <action type="launch">WORDPRESS_DIALOG</action>
         </button>
     </hbox>
   </frame>

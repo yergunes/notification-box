@@ -5,5 +5,5 @@
 sudo cp $BASE/notification-box /bin
 
 #EXPORT GENERAL APPLICATION SETTINGS
-[ ! -s $HOME/.notification-box  ] && echo -e -n 'CHECKBOX_GMAIL="false" CHECKBOX_OPENGUI="false" CHECKBOX_STARTUP="false" CHECKBOX_UPDATE="false"' > $HOME/.notification-box 
+[ ! -s $HOME/.notification-box  ] && echo -e -n 'CHECKBOX_GMAIL="false" CHECKBOX_WORDPRESS="false" CHECKBOX_OPENGUI="false" CHECKBOX_STARTUP="false" CHECKBOX_UPDATE="false"' > $HOME/.notification-box 
 
