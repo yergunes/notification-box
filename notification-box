@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export BASE="/home/arch/Desktop/notification-box"
+BASE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
 source $HOME/.notification-box #General Application Settings
 
 

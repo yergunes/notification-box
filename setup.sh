@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #BASE PATH
-BASE="/home/arch/Desktop/notification-box"
+BASE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 #COPY PROGRAM IN BIN FOLDER
 [[ ! -f /bin/notification/box ]] && sudo cp $BASE/notification-box /bin
 #GENERAL APPLICATION SETTINGS
