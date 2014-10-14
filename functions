@@ -20,11 +20,27 @@
         fi
     fi
 
+    #UPTIME IS BIGGER THAN 30 SECONDS
+    #uptime=$(cat /proc/uptime | grep -o '^[0-9]\+')
+    #if [ "$uptime" -gt 30 ]; then
+    #    export sys_uptime="1";
+    #else
+    #    export sys_uptime="0";
+    #fi
+    
+
     #GMAIL FUNCTION
     if [ "$CHECKBOX_GMAIL" = "true" ]; then
         [ -z "$(pgrep gmail.sh)" ] && $BASE/moduls/gmail.sh &
     else
         [ ! -z "$(pgrep gmail.sh)" ] && killall gmail.sh
+    fi
+
+    #FACEBOOK FUNCTION
+    if [ "$CHECKBOX_FACEBOOK" = "true" ]; then
+        [ -z "$(pgrep facebook.sh)" ] && $BASE/moduls/facebook.sh &
+    else
+        [ ! -z "$(pgrep facebook.sh)" ] && killall facebook.sh
     fi
 
     #WORDPRESS FUNCTION

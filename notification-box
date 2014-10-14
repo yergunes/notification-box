@@ -1,5 +1,4 @@
 #!/bin/bash
-set -xv
 export BASE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
 source $HOME/.notification-box #General Application Settings
 
@@ -13,7 +12,7 @@ IFS=$I
 
 
     [ -z $GTKDIALOG ] && GTKDIALOG=gtkdialog
-    #GMAIL WINDOW
+    #GMAIL DIALOG
     export GMAIL_DIALOG='
     <window title="Gmail Notifications" resizable="no" width-request="300" height-request="260"> 
       <vbox>
@@ -65,7 +64,77 @@ IFS=$I
       </vbox>
     </window>
     '
+    #FACEBOOK DIALOG
+    export FACEBOOK_DIALOG='
+    <window title="Facebook Notifications" resizable="no" width-request="300" height-request="350"> 
+      <vbox>
+        <pixmap>
+            <variable>FACEBOOK_DIALOG</variable>
+            <input file>'$BASE/icons/facebook-icon.png'</input>
+        </pixmap>
+        <frame Account informations>
+        <hbox homogeneous="true">
+            <text>
+              <label>Username</label>
+            </text>
+            <entry is-focus="true">
+            <default>'$facebook_username'</default>
+            <variable>facebook_username</variable>
+            </entry>
+        </hbox>
+        <hbox homogeneous="true">
+            <text>
+              <label>Password</label>
+            </text>
+            <entry>
+            <default>'$facebook_password'</default>
+            <sensitive>password</sensitive>
+            <variable>facebook_password</variable>
+            </entry>
+        </hbox>
+        <hbox>
+            <text>
+              <label>Refresh Time</label>
+            </text>
+            <spinbutton range-min="0" range-max="216000">
+                <default>'$facebook_refresh_time'</default>
+                <variable>facebook_refresh_time</variable>
+            </spinbutton>
+        </hbox>
+        </frame>
 
+        <frame Notification Type>
+        <hbox homogeneous="true" spacing="100">
+            <checkbox>
+              <label>Messages</label>
+              <default>'$CHECKBOX_FACEBOOK_MESSAGE'</default>
+              <variable>CHECKBOX_FACEBOOK_MESSAGE</variable>
+            </checkbox>
+        </hbox>
+        <hbox homogeneous="true" spacing="100">
+            <checkbox>
+              <label>Notifications</label>
+              <default>'$CHECKBOX_FACEBOOK_NOTIFICATION'</default>
+              <variable>CHECKBOX_FACEBOOK_NOTIFICATION</variable>
+            </checkbox>
+        </hbox>
+        </frame>
+
+        <hbox>
+            <button>
+                <label>Cancel</label>
+                <action function="closewindow">FACEBOOK_DIALOG</action>
+            </button>
+            <button>
+                <label>Save</label> 
+                <action>echo facebook_username="\"$facebook_username\"" facebook_password="\"$facebook_password\"" facebook_refresh_time="\"$facebook_refresh_time\"" CHECKBOX_FACEBOOK_MESSAGE="\"$CHECKBOX_FACEBOOK_MESSAGE\"" CHECKBOX_FACEBOOK_NOTIFICATION="\"$CHECKBOX_FACEBOOK_NOTIFICATION\"" > $BASE/moduls/.facebook-config</action>
+                <action function="closewindow">FACEBOOK_DIALOG</action>
+            </button>
+        </hbox>
+      </vbox>
+    </window>
+    '
+    #WORDPRESS DIALOG
     export WORDPRESS_DIALOG='
     <window title="Wordpress Notifications" resizable="no" width-request="450" height-request="370"> 
       <vbox>
@@ -147,7 +216,7 @@ IFS=$I
 
     #MAIN WINDOW
     export MAIN_DIALOG='
-    <window title="Notification Box v0.05" icon-name="gtk-about" resizable="no" width-request="350" height-request="230"> 
+    <window title="Notification Box v0.05" icon-name="gtk-about" resizable="no" width-request="350" height-request="270"> 
      <vbox>
 
       <frame Select for activate>
@@ -160,6 +229,17 @@ IFS=$I
             <button>
                 <label>Configure</label>
                 <action type="launch">GMAIL_DIALOG</action>
+            </button>
+        </hbox>
+        <hbox homogeneous="true" spacing="100">
+            <checkbox>
+              <label>Facebook</label>
+              <default>'$CHECKBOX_FACEBOOK'</default>
+              <variable>CHECKBOX_FACEBOOK</variable>
+            </checkbox>
+            <button>
+                <label>Configure</label>
+                <action type="launch">FACEBOOK_DIALOG</action>
             </button>
         </hbox>
         <hbox homogeneous="true" spacing="100">
@@ -182,7 +262,7 @@ IFS=$I
             <variable>CHECKBOX_STARTUP</variable>
         </checkbox>
         <checkbox>
-            <label>Open gui on start</label>
+            <label>Hide GUI on startup</label>
             <default>'$CHECKBOX_HIDEGUI'</default>
             <variable>CHECKBOX_HIDEGUI</variable>
         </checkbox>
@@ -215,7 +295,6 @@ IFS=$I
         echo $output > $HOME/.notification-box #Save General Application Settings
         source $BASE/functions #Functions
     fi
-
 
 
    
