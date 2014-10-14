@@ -22,14 +22,14 @@
 
     #GMAIL FUNCTION
     if [ "$CHECKBOX_GMAIL" = "true" ]; then
-        $BASE/moduls/gmail.sh &
+        [ -z "$(pgrep gmail.sh)" ] && $BASE/moduls/gmail.sh &
     else
         [ ! -z "$(pgrep gmail.sh)" ] && killall gmail.sh
     fi
 
     #WORDPRESS FUNCTION
     if [ "$CHECKBOX_WORDPRESS" = "true" ]; then
-        $BASE/moduls/wordpress.sh &
+        [ -z "$(pgrep wordpress.sh)" ] && $BASE/moduls/wordpress.sh &
     else
         [ ! -z "$(pgrep wordpress.sh)" ] && killall wordpress.sh
     fi
