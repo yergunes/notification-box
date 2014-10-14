@@ -216,7 +216,7 @@ IFS=$I
 
     #MAIN WINDOW
     export MAIN_DIALOG='
-    <window title="Notification Box v0.05" icon-name="gtk-about" resizable="no" width-request="350" height-request="270"> 
+    <window title="Notification Box v0.08" icon-name="gtk-about" resizable="no" width-request="350" height-request="270"> 
      <vbox>
 
       <frame Select for activate>
