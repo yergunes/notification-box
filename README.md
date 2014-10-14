@@ -10,6 +10,7 @@ Features
 <li>Wordpress Notifications (new comments and updates)</li>
 </ul>
 (Facebook is still buggy...)
-(Wordpress feature currently not work at all websites. But you should try.)
+
+(Wordpress features currently not working at all websites. But you should try.)
 
 ![Alt text](http://i59.tinypic.com/qq6ba1.png "Notification Box")
