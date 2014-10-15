@@ -1,12 +1,7 @@
 #!/bin/bash
+source $BASE/functions
+get_data ".gmail-config"  #Getting account informations
 
-#Gathering Account Informations
-informations=$(cat $BASE/moduls/.gmail-config);
-I=$IFS; IFS="" 
-for STATEMENTS in $informations; do 
-   eval $STATEMENTS 
-done 
-IFS=$I 
 
 #Authorization Check
 auth=$(curl -su $gmail_username:$gmail_password https://mail.google.com/mail/feed/atom | grep -ci "Unauthorized")
@@ -20,6 +15,8 @@ else
 
         if [ "$mail_count" != "0" ]; then
             notify-send -i $BASE/icons/gmail-icon.png "Gmail" "You got $mail_count new email!";
+        else
+            notify-send "nothing"
         fi
     sleep $gmail_refresh_time;
     done

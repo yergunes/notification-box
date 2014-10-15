@@ -1,14 +1,8 @@
 #!/bin/bash
-export BASE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
+export BASE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"; #Defining base path
 source $HOME/.notification-box #General Application Settings
-
-#BURAYı FONKSIYONA ALMAYA ÇALIŞ
-informations=$(cat $BASE/moduls/.*config);
-I=$IFS; IFS="" 
-for STATEMENTS in $informations; do 
-   eval $STATEMENTS 
-done 
-IFS=$I
+source $BASE/functions #Functions
+get_data ".*config" #Getting default values(user's informations)
 
 
     [ -z $GTKDIALOG ] && GTKDIALOG=gtkdialog
@@ -291,9 +285,10 @@ IFS=$I
     done 
     IFS=$I 
 
+
     if [ "$EXIT" = "apply" ]; then
         echo $output > $HOME/.notification-box #Save General Application Settings
-        source $BASE/functions #Functions
+        run_scripts #Run scripts
     fi
 
 

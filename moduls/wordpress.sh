@@ -1,12 +1,6 @@
 #!/bin/bash
-BASE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-informations=$(cat $BASE/.wordpress-config);
-I=$IFS; IFS="" 
-for STATEMENTS in $informations; do 
-   eval $STATEMENTS 
-done 
-IFS=$I 
+source $BASE/functions
+get_data ".wordpress-config"  #Getting account informations
 
 
 while [ 1 ]; do
@@ -28,11 +22,11 @@ while [ 1 ]; do
 
 
     if [ "$update_count" != "0" ] && [ "$comment_count" != "0" ]; then
-        notify-send -i $BASE/../icons/wordpress-icon.png "Wordpress" "You got $update_count new update and $comment_count new comment"
+        notify-send -i $BASE/icons/wordpress-icon.png "Wordpress" "You got $update_count new update and $comment_count new comment"
     elif [ "$update_count" != "0" ] && [ "$update_count" != "" ]; then
-        notify-send -i $BASE/../icons/wordpress-icon.png "Wordpress" "You got $update_count new update"
+        notify-send -i $BASE/icons/wordpress-icon.png "Wordpress" "You got $update_count new update"
     elif [ "$comment_count" != "0" ] && [ "$comment_count" != "" ]; then
-        notify-send -i $BASE/../icons/wordpress-icon.png "Wordpress" "You got $comment_count new comment"
+        notify-send -i $BASE/icons/wordpress-icon.png "Wordpress" "You got $comment_count new comment"
     fi
 
 sleep $wordpress_refresh_time;
