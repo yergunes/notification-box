@@ -15,8 +15,6 @@ else
 
         if [ "$mail_count" != "0" ]; then
             notify-send -i $BASE/icons/gmail-icon.png "Gmail" "You got $mail_count new email!";
-        else
-            notify-send "nothing"
         fi
     sleep $gmail_refresh_time;
     done
