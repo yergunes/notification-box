@@ -1,8 +1,11 @@
 #!/bin/bash
 export BASE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"; #Defining base path
+
 source $HOME/.notification-box #General Application Settings
 source $BASE/functions #Functions
+
 get_data ".*config" #Getting default values(user's informations)
+kill_start_without_gui; #If startup script is running kill it
 
 
     [ -z $GTKDIALOG ] && GTKDIALOG=gtkdialog
@@ -210,7 +213,7 @@ get_data ".*config" #Getting default values(user's informations)
 
     #MAIN WINDOW
     export MAIN_DIALOG='
-    <window title="Notification Box v0.08" icon-name="gtk-about" resizable="no" width-request="350" height-request="270"> 
+    <window title="Notification Box v0.1" icon-name="gtk-about" resizable="no" width-request="350" height-request="270"> 
      <vbox>
 
       <frame Select for activate>

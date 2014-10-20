@@ -12,36 +12,46 @@
         IFS=$I
     }
 
+    #Startup Gui
+    function kill_startup_without_gui (){
+        [ ! -z "$(pgrep startup.sh)" ] && killall startup.sh
+    }
+
+
+
     #Define the conditions
     run_scripts () {
 
+
         #ADD STARTUP FUNCTION
         startup_file="$HOME/.config/autostart/notification-box.desktop";
-        if [ "$CHECKBOX_STARTUP" = "true" ] && [ -f $startup_file ]; then
+        if [ "$CHECKBOX_STARTUP" = "true" ] && [ "$CHECKBOX_HIDEGUI" = "false" ]; then
             echo "[Desktop Entry]
-                    Version=0.03
+                    Version=0.1
                     Type=Application
                     Name=Notification Box
                     Comment=This is a awesome notification app
                     Icon=$BASE/icons/app-icon.png
-                    Exec=notification-box
+                    Exec=$BASE/notification-box
                     StartupNotify=false
                     Terminal=false
                     Categories=Utility;" > $startup_file;
-        else
+        elif [ "$CHECKBOX_STARTUP" = "true" ] && [ "$CHECKBOX_HIDEGUI" = "true" ]; then
+                    echo "[Desktop Entry]
+                    Version=0.1
+                    Type=Application
+                    Name=Notification Box
+                    Comment=This is a awesome notification app
+                    Icon=$BASE/icons/app-icon.png
+                    Exec=$BASE/startup.sh
+                    StartupNotify=false
+                    Terminal=false
+                    Categories=Utility;" > $startup_file;
+        elif [ "$CHECKBOX_STARTUP" = "false" ] && [ "$CHECKBOX_HIDEGUI" = "false" ]; then
             if [ -f $startup_file ]; then
                 rm $startup_file
             fi
         fi
-
-        #UPTIME IS BIGGER THAN 30 SECONDS
-        #uptime=$(cat /proc/uptime | grep -o '^[0-9]\+')
-        #if [ "$uptime" -gt 30 ]; then
-        #    export sys_uptime="1";
-        #else
-        #    export sys_uptime="0";
-        #fi
-        
 
         #GMAIL FUNCTION
         if [ "$CHECKBOX_GMAIL" = "true" ]; then
