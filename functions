@@ -13,7 +13,7 @@
     }
 
     #Startup Gui
-    function kill_startup_without_gui (){
+    function kill_start_without_gui (){
         [ ! -z "$(pgrep startup.sh)" ] && killall startup.sh
     }
 
